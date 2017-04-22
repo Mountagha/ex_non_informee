@@ -4,6 +4,8 @@
 #include "arbre.h"
 #include "liste.h"
 
+booleen trouve = faux;
+booleen round = vrai;
 
 static char* toChar (Objet* objet)
 {
@@ -126,28 +128,26 @@ void prefixe (Arbre* arbre)
     prefixe (arbre->racine, arbre->toString);
 }
 //Ajout de code ***************************************************
-static int prefixeAvecBut(Noeud* racine, Objet* objet, char* (*toString) (Objet*), int (*comparer) (Objet*, Objet*))
+static void prefixeAvecBut(Noeud* racine, Objet* objet, char* (*toString) (Objet*), int (*comparer) (Objet*, Objet*))
 {
-    booleen trouve = faux;
-    if(racine != NULL)
-    {
-	printf("%s ", toString(racine->reference));
-	if(comparer(racine->reference, objet) != 0)
+	trouve = round && !trouve ? faux : vrai;
+	if(racine != NULL && !trouve)
+    	{
+		
+		printf("%s ", toString(racine->reference));
+		if(comparer(racine->reference, objet) == 0){
+			trouve = vrai;
+			round = faux;
+		}
 		prefixeAvecBut(racine->gauche, objet, toString, comparer);
-	else
-		return 0;
-	if(comparer(racine->reference, objet) != 0)
 		prefixeAvecBut(racine->droite, objet, toString, comparer);
-	else
-		return 0;
-    }
-    else
-        return -1;
-}
+	 
+    	}
+}	
 
-int prefixeAvecBut(Arbre* arbre, Objet* objet)
+void prefixeAvecBut(Arbre* arbre, Objet* objet)
 {
-    return prefixeAvecBut(arbre->racine, objet, arbre->toString, arbre->comparer);
+    prefixeAvecBut(arbre->racine, objet, arbre->toString, arbre->comparer);
 }
 //**********************************************************************
 

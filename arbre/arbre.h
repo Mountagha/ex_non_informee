@@ -38,7 +38,7 @@ Arbre* creerArbreExp () ;
 
 // parcours
 void     prefixe              (Arbre* arbre);
-int     prefixeAvecBut       (Arbre* arbre, Objet* objet);
+void     prefixeAvecBut       (Arbre* arbre, Objet* objet);
 void     infixe               (Arbre* arbre);
 void     postfixe             (Arbre* arbre);
 

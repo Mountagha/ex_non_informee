@@ -113,7 +113,7 @@ int main () {
        char but[20];
        printf("Precisez le but : ");
        scanf("%s", but);
-       int retour = prefixeAvecBut(arbre, (char*)but);
+       prefixeAvecBut(arbre, (char*)but);
        break;
      }
       
