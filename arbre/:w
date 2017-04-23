@@ -5,6 +5,8 @@
 #include "liste.h"
 
 booleen trouve = faux;
+booleen round = vrai;
+int niveau = 0;
 
 static char* toChar (Objet* objet)
 {
@@ -129,16 +131,18 @@ void prefixe (Arbre* arbre)
 //Ajout de code ***************************************************
 static void prefixeAvecBut(Noeud* racine, Objet* objet, char* (*toString) (Objet*), int (*comparer) (Objet*, Objet*))
 {
-        
+
 	if(racine != NULL && !trouve)
     	{
 		
 		printf("%s ", toString(racine->reference));
 		if(comparer(racine->reference, objet) == 0){
 			trouve = vrai;
+			round = vrai;
 		}
 		prefixeAvecBut(racine->gauche, objet, toString, comparer);
 		prefixeAvecBut(racine->droite, objet, toString, comparer);
+	 	trouve = round ? faux : vrai;
     	}
 }	
 
@@ -147,24 +151,20 @@ void prefixeAvecBut(Arbre* arbre, Objet* objet)
     prefixeAvecBut(arbre->racine, objet, arbre->toString, arbre->comparer);
 }
 
-static void profondeurLimiteAvecBut(Noeud* racine, Objet* objet, int profondeur, char* (*toString)(Objet*), int (*comparer)(Objet*, Objet*)) 
+static void profondeurLimite(Noeud* racine, int profondeur, char* (*toString)(Objet*)) 
 {
-   
-   if(racine != NULL && !trouve)
+   if(racine != NULL)
    {
    	printf("%s ", toString(racine->reference));
-	if(comparer(racine->reference, objet) == 0){
-		trouve = vrai;
-	}
 	if(profondeur > 0){
-		profondeurLimiteAvecBut(racine->gauche, objet, profondeur-1, toString, comparer);
-		profondeurLimiteAvecBut(racine->droite, objet, profondeur-1, toString, comparer);
+		profondeurLimite(racine->gauche, profondeur-1, toString);
+		profondeurLimite(racine->droite, profondeur-1, toString);
 	}
    }
 }
-void profondeurLimiteAvecBut(Arbre* arbre, Objet* objet, int profondeur)
+void profondeurLimite(Arbre* arbre, int profondeur)
 {
-    profondeurLimiteAvecBut(arbre->racine, objet, profondeur, arbre->toString, arbre->comparer);
+    profondeurLimite(arbre->racine, profondeur, arbre->toString);
 }
 //**********************************************************************
 

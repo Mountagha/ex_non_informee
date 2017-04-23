@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "arbre.h"
 
+extern booleen trouve ;
 
 int menu (Arbre* arbre) {
   printf ("\n\n ARBRES BINAIRES \n\n");
@@ -24,6 +25,7 @@ int menu (Arbre* arbre) {
   printf ("13 - egalite entre deux arbres\n");
   printf ("14 - Parcours largeur avec but\n");
   printf ("15 - Prefixe avec but\n");
+  printf ("16 - Profondeur avec limite\n");
 
   fprintf (stderr, "Votre choix ? ");
   int cod; scanf ("%d", &cod); getchar();
@@ -113,9 +115,21 @@ int main () {
        char but[20];
        printf("Precisez le but : ");
        scanf("%s", but);
+       trouve = faux;
        prefixeAvecBut(arbre, (char*)but);
        break;
      }
+    case 16:{
+    	int profondeur;
+	char but[20];
+	printf("Entrez la profondeur : ");
+	scanf("%d", &profondeur);
+	printf("Entrez le but : ");
+	scanf("%s", but);
+	trouve = faux;
+	profondeurLimiteAvecBut(arbre, but, profondeur);
+        break;
+    }
       
     }  // switch
     if (!fini) {
