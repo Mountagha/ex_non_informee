@@ -4,6 +4,7 @@
 #include "arbre.h"
 #include "liste.h"
 
+static int hauteur(Noeud *);
 booleen trouve = faux;
 
 static char* toChar (Objet* objet)
@@ -165,6 +166,20 @@ static void profondeurLimiteAvecBut(Noeud* racine, Objet* objet, int profondeur,
 void profondeurLimiteAvecBut(Arbre* arbre, Objet* objet, int profondeur)
 {
     profondeurLimiteAvecBut(arbre->racine, objet, profondeur, arbre->toString, arbre->comparer);
+}
+
+static void profondeurIterativeAvecBut(Noeud* racine, Objet* objet, char* (*toString)(Objet*), int (*comparer) (Objet*, Objet*))
+{
+   int profondeur = hauteur(racine);
+   int i;
+   for(i=0; i<profondeur; i++)
+   {
+       profondeurLimiteAvecBut(racine,objet,i,toString,comparer);
+   }
+}
+void profondeurIterativeAvecBut(Arbre* arbre, Objet* objet)
+{
+   profondeurIterativeAvecBut(arbre->racine, objet, arbre->toString, arbre->comparer);
 }
 //**********************************************************************
 

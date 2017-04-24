@@ -130,6 +130,15 @@ int main () {
 	profondeurLimiteAvecBut(arbre, but, profondeur);
         break;
     }
+    case 17:{
+    	char but[20];
+	printf("Entrez le but : ");
+	scanf("%s", but);
+	trouve = faux;
+	profondeurIterativeAvecBut(arbre,but);
+        break;
+    }
+
       
     }  // switch
     if (!fini) {
