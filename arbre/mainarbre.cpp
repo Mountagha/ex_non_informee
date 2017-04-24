@@ -26,6 +26,7 @@ int menu (Arbre* arbre) {
   printf ("14 - Parcours largeur avec but\n");
   printf ("15 - Prefixe avec but\n");
   printf ("16 - Profondeur avec limite\n");
+  printf ("17 - Profondeur itérative\n");
 
   fprintf (stderr, "Votre choix ? ");
   int cod; scanf ("%d", &cod); getchar();

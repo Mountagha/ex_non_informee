@@ -175,6 +175,7 @@ static void profondeurIterativeAvecBut(Noeud* racine, Objet* objet, char* (*toSt
    for(i=0; i<profondeur; i++)
    {
        profondeurLimiteAvecBut(racine,objet,i,toString,comparer);
+       printf("\n");
    }
 }
 void profondeurIterativeAvecBut(Arbre* arbre, Objet* objet)
