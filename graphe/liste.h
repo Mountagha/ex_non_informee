@@ -1,3 +1,6 @@
+#ifndef LISTE_H_INCLUDED
+#define LISTE_H_INCLUDED
+
 // liste.h
 
 
@@ -13,7 +16,9 @@ typedef void Objet;
 
 // un élément de la liste
 typedef struct element {
-  Objet*          reference;   // référence un objet (de l'application)
+  Objet*          reference;
+  Objet*          priority;
+  // référence un objet (de l'application)
   struct element* suivant;     // élément suivant de la liste
 } Element;
 
@@ -31,7 +36,7 @@ typedef struct {
 void     initListe              (Liste* li, int type, char* (*toString) (Objet*),
 				 int (*comparer) (Objet*, Objet*) );
 void     initListe              (Liste* li);
-Liste*   creerListe             (int type, char* (*toString) (Objet*), 
+Liste*   creerListe             (int type, char* (*toString) (Objet*),
 				 int (*comparer) (Objet*, Objet*) );
 Liste*   creerListe             (int type);
 Liste*   creerListe             ();
@@ -41,7 +46,8 @@ int      nbElement              (Liste* li);
 
 void     insererEnTeteDeListe   (Liste* li, Objet* objet);
 void     insererEnFinDeListe    (Liste* li, Objet* objet);
-
+void     insererEnTeteDeListe   (Liste* li, Objet* objet, Objet* priority);
+void     insererEnFinDeListeP    (Liste* li, Objet* objet, Objet* priority);
 // parcours de liste
 void     ouvrirListe            (Liste* li);
 booleen  finListe               (Liste* li);
@@ -49,11 +55,13 @@ Objet*   objetCourant           (Liste* li);
 void     listerListe            (Liste* li);
 void     listerListe            (Liste* li, void (*f) (Objet*));
 Objet*   chercherUnObjet        (Liste* li, Objet* objetCherche);
-
+bool   chercherUnObjetBis        (Liste* li, Objet* objetCherche);
+char*   chercherPath        (Liste* li, Objet* objetCherche);
 Objet*   extraireEnTeteDeListe  (Liste* li);
+Objet*   extraireEnTeteDeListeBis  (Liste* li);
 Objet*   extraireEnFinDeListe   (Liste* li);
 booleen  extraireUnObjet        (Liste* li, Objet* objet);
-   
+
 void     detruireListe          (Liste* li);
 void     recopierListe          (Liste* l1, Liste* l2);
 
@@ -65,5 +73,8 @@ void     recopierListe          (Liste* l1, Liste* l2);
 
 // LISTE ORDONNEE
 void     insererEnOrdre         (Liste* li, Objet* objet);
+void     insererEnOrdreP         (Liste* li, Objet* objet, Objet* priority);
 
 
+
+#endif // LISTE_H_INCLUDED
