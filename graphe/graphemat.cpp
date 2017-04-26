@@ -6,7 +6,7 @@
 booleen  grapheDetruit = vrai;
 booleen trouve = faux;
 static int* cout = (int*)malloc(sizeof(int)*100);
-static NomSom* path = (NomSom*)malloc(sizeof(NomSom)*100);
+static NomSom* plusCourtChemin = (NomSom*)malloc(sizeof(NomSom)*100);
 
 // remise à zéro du tableau de marquage
 static void razMarque (GrapheMat* graphe)
@@ -311,9 +311,9 @@ void parcoursEnProfondeurAvecBut (GrapheMat* graphe, char *but)
 static void coutUniforme (GrapheMat* graphe, Liste* li, int numSommet, int but)
 {
   for(int j=0;j<100;j++){
-     strcpy (*(path+j),"");}
+     strcpy (*(plusCourtChemin+j),"");}
 
-     strcpy (*(path+numSommet),graphe->nomS[numSommet]);
+     strcpy (*(plusCourtChemin+numSommet),graphe->nomS[numSommet]);
      int nMax = graphe->nMax;
      Element* extraite=NULL;
 
@@ -342,9 +342,9 @@ static void coutUniforme (GrapheMat* graphe, Liste* li, int numSommet, int but)
 
 
 
-           strcat (*(path+i),*(path+numSommet));
-           strcat (*(path+i),"->");
-           strcat (*(path+i),graphe->nomS[i]);
+           strcat (*(plusCourtChemin+i),*(plusCourtChemin+numSommet));
+           strcat (*(plusCourtChemin+i),"->");
+           strcat (*(plusCourtChemin+i),graphe->nomS[i]);
 
 
 
@@ -359,10 +359,10 @@ static void coutUniforme (GrapheMat* graphe, Liste* li, int numSommet, int but)
                 booleen trouve = chercherUnObjetBis(li,graphe->nomS[i]);
                 if((graphe->element [numSommet*nMax+i] == vrai)&& trouve &&*(cout+i)>graphe->valeur[numSommet*nMax+i]+*(cout+numSommet )){
                    *(cout+i)=graphe->valeur[numSommet*nMax+i]+*(cout+numSommet );
-                   strcpy (*(path+i),"");
-                   strcat (*(path+i),*(path+numSommet));
-                   strcat (*(path+i),"->");
-                   strcat (*(path+i),graphe->nomS[i]);
+                   strcpy (*(plusCourtChemin+i),"");
+                   strcat (*(plusCourtChemin+i),*(plusCourtChemin+numSommet));
+                   strcat (*(plusCourtChemin+i),"->");
+                   strcat (*(plusCourtChemin+i),graphe->nomS[i]);
               }
        }
      }
@@ -389,7 +389,7 @@ void parcoursCoutUniforme (GrapheMat* graphe ,int but)
 
     if(trouve){
         printf("\n\n Le plus court  chemin vers le noeud   %s   :",graphe->nomS[but]);
-        printf("%s\n",*(path+but));
+        printf("%s\n",*(plusCourtChemin+but));
         printf("Le cout de ce chemin :  %d ",*(cout+but));
         trouve=faux;
     } 
