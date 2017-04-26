@@ -28,4 +28,7 @@ void       ecrireGraphe       (GrapheMat* graphe);
 void       parcoursProfond    (GrapheMat* graphe);
 
 void       floyd              (GrapheMat* graphe);
+void       parcoursEnLargeurAvecBut(GrapheMat* graphe, char* but);
+void       parcoursEnProfondeurAvecBut(GrapheMat* graphe, char* but);
+void       parcoursCoutUniforme(GrapheMat* graphe, int but);
 

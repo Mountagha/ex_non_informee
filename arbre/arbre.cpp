@@ -137,6 +137,7 @@ static void prefixeAvecBut(Noeud* racine, Objet* objet, char* (*toString) (Objet
 		printf("%s ", toString(racine->reference));
 		if(comparer(racine->reference, objet) == 0){
 			trouve = vrai;
+			printf("But trouvé");
 		}
 		prefixeAvecBut(racine->gauche, objet, toString, comparer);
 		prefixeAvecBut(racine->droite, objet, toString, comparer);

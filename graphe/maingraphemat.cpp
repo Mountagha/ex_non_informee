@@ -5,7 +5,7 @@
 
 #include "graphemat.h"
 #include "liregraphe.h"
-
+extern booleen trouve;
 typedef GrapheMat Graphe;
 
 
@@ -25,6 +25,9 @@ int menu () {
   printf ("7 - Parcours en profondeur d'un graphe\n");
   printf ("\n");
   printf ("8  - Floyd \n");
+  printf ("9 - En largeur avec but\n");
+  printf ("10 - En profondeur avec but\n");
+  printf ("11 - Parcours Cout Uniforme\n");
   printf ("\n");
   printf ("Votre choix ? ");
   int cod; scanf ("%d", &cod); getchar();
@@ -97,6 +100,30 @@ int main () {
         printf ("Graphe non valué\n");
       }
       break;
+     case 9:{
+     	char but[20];
+	printf("Entrez le but : ");
+	scanf("%s",but);
+	trouve = faux;
+	parcoursEnLargeurAvecBut(graphe, but);
+	break;
+     }
+     case 10:{
+     	char but[20];
+	printf("Entrez le but : ");
+	scanf("%s",but);
+	trouve = faux;
+	parcoursEnProfondeurAvecBut(graphe,but);
+	break;
+     }
+     case 11:{
+     	int but;
+	printf("Entrez le numero du sommet :");
+	scanf("%d",&but);
+	trouve = faux;
+	parcoursCoutUniforme(graphe, but);
+	break;
+     }
     }   // switch
     if (!fini) {
       printf ("\n\nTaper Return pour continuer\n");

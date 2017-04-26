@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "graphemat.h"
-
+#include "liste.h"
 booleen  grapheDetruit = vrai;
+booleen trouve = faux;
+static int* cout = (int*)malloc(sizeof(int)*100);
+static NomSom* path = (NomSom*)malloc(sizeof(NomSom)*100);
 
 // remise à zéro du tableau de marquage
 static void razMarque (GrapheMat* graphe)
@@ -226,3 +229,184 @@ void floyd (GrapheMat* graphe)
         ecrireEtape (a, p, k, n, nMax);
     }
 }
+
+//ajout de code *********************************************
+// le parcours en largeur des arbres 
+static void parcoursEnLargeurAvecBut(GrapheMat* graphe, Liste* file, int numSom ,char *but)
+{
+    int nMax = graphe->nMax;
+    NomSom *eltExtrait = NULL;
+    insererEnFinDeListe(file, graphe->nomS[numSom]);
+    graphe->marque[numSom] = vrai;
+    while(!listeVide(file) && !trouve)
+    {
+    	eltExtrait = (NomSom*) extraireEnTeteDeListe(file);
+	if(strcmp(*eltExtrait,but)==0)
+	{
+	   printf("%s(But trouve) ", but);
+	   trouve = vrai;
+	}
+	numSom = rang(graphe, *eltExtrait);
+	if(!trouve)
+	printf("%s->", *eltExtrait);
+	for(int i=0; i<graphe->nMax && !trouve; i++)
+	{
+	   if(graphe->element[numSom*nMax+i] == vrai && !graphe->marque[i])
+	   {
+	       insererEnFinDeListe(file, graphe->nomS[i]);
+	       graphe->marque[i] = vrai;
+	   }
+	}
+    }
+}
+void parcoursEnLargeurAvecBut(GrapheMat* graphe, char* but)
+{
+   razMarque(graphe);
+   Liste *file = creerListe();
+   for(int i=0; i<graphe->n; i++)
+   {
+   	if(!graphe->marque[i])
+	{
+	    parcoursEnLargeurAvecBut(graphe,file,i,but);
+	}
+   }
+   if(!trouve && listeVide(file)) printf("\nLe noeud %s ne se trouve pas dans le graphe",but);
+   
+}
+
+static void parcoursEnProfondeurAvecBut(GrapheMat* graphe, int numSommet, char *but)
+{
+  if(!trouve){ 
+   int nMax = graphe->nMax;
+   graphe->marque [numSommet] = vrai;
+   printf ("%s->", graphe->nomS [numSommet]);
+    for (int i=0; i<graphe->n; i++)
+    {
+        if(strcmp(graphe->nomS[i],but) == 0)
+	{
+	   printf("%s (but trouve)\n");
+	   trouve = vrai;
+	}
+	if ( (graphe->element [numSommet*nMax+i] == vrai)
+                && !graphe->marque [i] && !trouve)
+        {
+            profondeur (graphe, i);
+        }
+    }
+  }
+}
+
+
+void parcoursEnProfondeurAvecBut (GrapheMat* graphe, char *but)
+{
+    razMarque (graphe);
+    for (int i=0; i<graphe->n; i++)
+    {
+        if (!graphe->marque [i]) parcoursEnProfondeurAvecBut(graphe, i, but);
+    }
+    if(!trouve)
+    printf("Ce noeud n'existe pas\n");
+}
+
+static void coutUniforme (GrapheMat* graphe, Liste* li, int numSommet, int but)
+{
+  for(int j=0;j<100;j++){
+     strcpy (*(path+j),"");}
+
+     strcpy (*(path+numSommet),graphe->nomS[numSommet]);
+     int nMax = graphe->nMax;
+     Element* extraite=NULL;
+
+     insererEnFinDeListe (li,graphe->nomS[numSommet],cout+numSommet);
+     graphe->marque [numSommet]=true;
+ 
+     while (!listeVide (li) && !trouve )
+     {
+ 
+     extraite = (Element*) extraireEnTeteDeListe(li);
+     //compteurVisiteG++;
+     numSommet = rang (graphe,(char*)extraite);
+
+
+
+     if(numSommet==but){
+            trouve=true;
+     return;
+    }
+
+    for (int i=0; i<graphe->n; i++)
+    {
+
+         if ( (graphe->element [numSommet*nMax+i] == vrai)
+                && !graphe->marque [i] )
+          {
+
+
+
+           strcat (*(path+i),*(path+numSommet));
+           strcat (*(path+i),"->");
+           strcat (*(path+i),graphe->nomS[i]);
+
+
+
+           *(cout+i)=graphe->valeur[numSommet*nMax+i]+*(cout+numSommet );
+
+           insererEnOrdre(li,graphe->nomS[i],cout+i);
+
+           graphe->marque[i] = vrai;
+
+        }
+        else{
+                bool trouvee = chercherUnObjetBis(li,graphe->nomS[i]);
+            if((graphe->element [numSommet*nMax+i] == vrai)&& trouvee &&*(cout+i)>graphe->valeur[numSommet*nMax+i]+*(cout+numSommet )){
+             *(cout+i)=graphe->valeur[numSommet*nMax+i]+*(cout+numSommet );
+             strcpy (*(path+i),"");
+        strcat (*(path+i),*(path+numSommet));
+        strcat (*(path+i),"->");
+        strcat (*(path+i),graphe->nomS[i]);
+
+    }}
+}
+
+}
+}
+void parcoursCoutUniforme (GrapheMat* graphe int but)
+{
+//clock_t begin, end;
+//double time_spent;
+
+
+ //int but;
+   // printf("Entrez le numero du sommet but : (le numero du sommet but designe par le prof est 7) ");
+     //scanf("%d", &but);
+    Liste* li=creerListe(1);
+    razMarque (graphe);
+    for(int j=0;j<graphe->n;j++){
+        *(cout+j)=0;
+    }
+    //begin = clock();
+    for (int i=0; i<graphe->n; i++)
+    {
+        if (!graphe->marque [i]){
+         *(cout+i)=0;
+            coutUniforme (graphe, li,i,but);}
+
+        break;
+    }
+
+if(trouveS){
+        printf("\n\n Le plus court  chemin vers le noeud   %s   :",graphe->nomS[but]);
+          printf("%s\n",*(path+but));
+          printf("Le cout de ce chemin :  %d ",*(cout+but));
+          trouveS=false;
+}
+else {
+    printf("\nNoeud INTROUVABLE");
+}
+//end = clock();
+//time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+//printf("\nLe temps pris :  %f",time_spent);
+//    printf("\nNoeuds visites : %d",compteurVisiteG);
+//    compteurVisiteG=0;
+}
+
