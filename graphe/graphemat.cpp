@@ -323,51 +323,44 @@ static void coutUniforme (GrapheMat* graphe, Liste* li, int numSommet, int but)
      while (!listeVide (li) && !trouve )
      {
  
-     extraite = (Element*) extraireEnTeteDeListe(li);
-     numSommet = rang (graphe,(char*)extraite);
-
-
-
-     if(numSommet==but){
+        extraite = (Element*) extraireEnTeteDeListe(li);
+        numSommet = rang (graphe,(char*)extraite);
+       
+        if(numSommet==but)
+	{
             trouve=true;
-     return;
-    }
+            return;
+        }  
 
-    for (int i=0; i<graphe->n; i++)
-    {
+        for (int i=0; i<graphe->n; i++)
+        {
 
-         if ( (graphe->element [numSommet*nMax+i] == vrai)
+           if ( (graphe->element [numSommet*nMax+i] == vrai)
                 && !graphe->marque [i] )
-          {
+           {
 
-
-
-           strcat (*(plusCourtChemin+i),*(plusCourtChemin+numSommet));
-           strcat (*(plusCourtChemin+i),"->");
-           strcat (*(plusCourtChemin+i),graphe->nomS[i]);
-
-
-
-           *(cout+i)=graphe->valeur[numSommet*nMax+i]+*(cout+numSommet );
-
-           insererEnOrdreP(li,graphe->nomS[i],cout+i);
-
-           graphe->marque[i] = vrai;
-
-        }
-        else{
-                booleen trouve = chercherUnObjetBis(li,graphe->nomS[i]);
-                if((graphe->element [numSommet*nMax+i] == vrai)&& trouve &&*(cout+i)>graphe->valeur[numSommet*nMax+i]+*(cout+numSommet )){
+               strcat (*(plusCourtChemin+i),*(plusCourtChemin+numSommet));
+               strcat (*(plusCourtChemin+i),"->");
+               strcat (*(plusCourtChemin+i),graphe->nomS[i]);
+               *(cout+i)=graphe->valeur[numSommet*nMax+i]+*(cout+numSommet );
+               insererEnOrdreP(li,graphe->nomS[i],cout+i);
+               graphe->marque[i] = vrai;
+           }
+           else
+	   {
+               booleen trouve = chercherUnObjetBis(li,graphe->nomS[i]);
+               if((graphe->element [numSommet*nMax+i] == vrai)&& trouve &&*(cout+i)>graphe->valeur[numSommet*nMax+i]+*(cout+numSommet ))
+	       {
                    *(cout+i)=graphe->valeur[numSommet*nMax+i]+*(cout+numSommet );
                    strcpy (*(plusCourtChemin+i),"");
                    strcat (*(plusCourtChemin+i),*(plusCourtChemin+numSommet));
                    strcat (*(plusCourtChemin+i),"->");
                    strcat (*(plusCourtChemin+i),graphe->nomS[i]);
-              }
-       }
-     }
+               }
+           }
+        } 
 
-}
+     }
 }
 void parcoursCoutUniforme (GrapheMat* graphe ,int but)
 {
